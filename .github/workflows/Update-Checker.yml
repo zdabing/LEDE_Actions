@@ -13,8 +13,8 @@ name: 更新检查
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: 20 5/3 * * *
+#  schedule:
+#    - cron: 20 5/3 * * *
 
 jobs:
   check:
@@ -40,20 +40,20 @@ jobs:
         echo "commitHash_Lede_Luci=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
         cd      
          
-        git clone --depth 1 https://github.com/fw876/helloworld -b master helloworld 
-        cd helloworld
-        echo "commitHash_HelloWorld=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-        cd
+#        git clone --depth 1 https://github.com/fw876/helloworld -b master helloworld
+#        cd helloworld
+#        echo "commitHash_HelloWorld=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+#        cd
         
         git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall.git -b packages passwall 
         cd passwall
         echo "commitHash_passwall=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
         cd
         
-        git clone --depth 1 https://github.com/pymumu/smartdns.git -b master smartdns 
-        cd smartdns
-        echo "commitHash_smartdns=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-        cd
+#        git clone --depth 1 https://github.com/pymumu/smartdns.git -b master smartdns
+#        cd smartdns
+#        echo "commitHash_smartdns=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+#        cd
         
         git clone --depth 1 https://github.com/vernesong/OpenClash.git -b master OpenClash 
         cd OpenClash
