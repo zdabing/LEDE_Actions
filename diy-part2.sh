@@ -47,21 +47,26 @@ rm -rf ./package/applications/passwall_package
 #if [ ! -d "./package/lean/luci-app-argon-config" ]; then git clone https://github.com/jerrykuku/luci-app-argon-config.git ./package/lean/luci-app-argon-config;   else cd ./package/lean/luci-app-argon-config; git stash; git stash drop; git pull; cd ..; cd ..; cd ..; fi;
 
 ##取消bootstrap为默认主题
-rm -rf ./feeds/xiangfeidexiaohuo/jerrykuku/luci-theme-argon
-rm -rf ./feeds/luci/themes/luci-theme-argon
-rm -rf ./feeds/luci/themes/luci-theme-design
-rm -rf ./feeds/luci/themes/luci-theme-argon-mod
+# 修改默认主题
+sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' ./feeds/luci/collections/luci/Makefile
 
-rm -rf ./package/feeds/xiangfeidexiaohuo/luci-theme-argon
-rm -rf ./package/feeds/luci/luci-theme-argon
-rm -rf ./package/feeds/luci/luci-theme-design
-rm -rf ./package/feeds/luci/luci-theme-argon-mod
-
-sed -i 's/+luci-theme-argon/+luci-theme-argon-18.06/g' ./feeds/xiangfeidexiaohuo/jerrykuku/luci-app-argon-config/Makefile
-
-sed -i '/set luci.main.mediaurlbase=\/luci-static\/bootstrap/d' feeds/luci/themes/luci-theme-bootstrap/root/etc/uci-defaults/30_luci-theme-bootstrap
-sed -i 's/luci-theme-bootstrap/luci-theme-argon-18.06/g' feeds/luci/collections/luci/Makefile
-sed -i 's/luci-theme-bootstrap/luci-theme-argon-18.06/g' feeds/luci/collections/luci-nginx/Makefile
+# 取消bootstrap为默认主题
+#sed -i '/set luci.main.mediaurlbase=\/luci-static\/bootstrap/d' feeds/luci/themes/luci-theme-bootstrap/root/etc/uci-defaults/30_luci-theme-bootstrap
+#rm -rf ./feeds/xiangfeidexiaohuo/jerrykuku/luci-theme-argon
+#rm -rf ./feeds/luci/themes/luci-theme-argon
+#rm -rf ./feeds/luci/themes/luci-theme-design
+#rm -rf ./feeds/luci/themes/luci-theme-argon-mod
+#
+#rm -rf ./package/feeds/xiangfeidexiaohuo/luci-theme-argon
+#rm -rf ./package/feeds/luci/luci-theme-argon
+#rm -rf ./package/feeds/luci/luci-theme-design
+#rm -rf ./package/feeds/luci/luci-theme-argon-mod
+#
+#sed -i 's/+luci-theme-argon/+luci-theme-argon-18.06/g' ./feeds/xiangfeidexiaohuo/jerrykuku/luci-app-argon-config/Makefile
+#
+#sed -i '/set luci.main.mediaurlbase=\/luci-static\/bootstrap/d' feeds/luci/themes/luci-theme-bootstrap/root/etc/uci-defaults/30_luci-theme-bootstrap
+#sed -i 's/luci-theme-bootstrap/luci-theme-argon-18.06/g' feeds/luci/collections/luci/Makefile
+#sed -i 's/luci-theme-bootstrap/luci-theme-argon-18.06/g' feeds/luci/collections/luci-nginx/Makefile
 
 #升级smartdns版本到最新commits
 #sed -i 's/1.2023.41/'"$(date +"%Y%m%d")"'/g' feeds/packages/net/smartdns/Makefile
