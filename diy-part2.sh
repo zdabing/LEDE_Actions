@@ -11,7 +11,7 @@
 #
 
 # 修改默认IP
-sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.100.1/g' package/base-files/files/bin/config_generate
 
 # 恢复首页显示
 sed -i 's/^.*mwan.htm.*/#&/' package/lean/default-settings/files/zzz-default-settings
@@ -29,8 +29,8 @@ sed -i 's@.*CYXluq4wUazHjmCDBCqXF*@#&@g' package/lean/default-settings/files/zzz
 
 #添加passwall
 git clone https://github.com/xiaorouji/openwrt-passwall.git -b packages ./package/applications/passwall_package
-#git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci ./package/applications/passwall
-git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci-smartdns-new-version ./package/applications/passwall
+git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci ./package/applications/passwall
+#git clone https://github.com/xiaorouji/openwrt-passwall.git -b luci-smartdns-new-version ./package/applications/passwall
 cp -rf ./package/applications/passwall_package/* ./package/applications/passwall
 rm -rf ./package/applications/passwall_package
 #mkdir -p ./package/applications/passwall
@@ -46,15 +46,31 @@ rm -rf ./package/applications/passwall_package
 #git clone https://github.com/jerrykuku/luci-app-argon-config.git ./package/applications/luci-app-argon-config
 #if [ ! -d "./package/lean/luci-app-argon-config" ]; then git clone https://github.com/jerrykuku/luci-app-argon-config.git ./package/lean/luci-app-argon-config;   else cd ./package/lean/luci-app-argon-config; git stash; git stash drop; git pull; cd ..; cd ..; cd ..; fi;
 
+##取消bootstrap为默认主题
+rm -rf ./feeds/xiangfeidexiaohuo/jerrykuku/luci-theme-argon
+rm -rf ./feeds/luci/themes/luci-theme-argon
+rm -rf ./feeds/luci/themes/luci-theme-design
+rm -rf ./feeds/luci/themes/luci-theme-argon-mod
+
+rm -rf ./package/feeds/xiangfeidexiaohuo/luci-theme-argon
+rm -rf ./package/feeds/luci/luci-theme-argon
+rm -rf ./package/feeds/luci/luci-theme-design
+rm -rf ./package/feeds/luci/luci-theme-argon-mod
+
+sed -i 's/+luci-theme-argon/+luci-theme-argon-18.06/g' ./feeds/xiangfeidexiaohuo/jerrykuku/luci-app-argon-config/Makefile
+
+sed -i '/set luci.main.mediaurlbase=\/luci-static\/bootstrap/d' feeds/luci/themes/luci-theme-bootstrap/root/etc/uci-defaults/30_luci-theme-bootstrap
+sed -i 's/luci-theme-bootstrap/luci-theme-argon-18.06/g' feeds/luci/collections/luci/Makefile
+sed -i 's/luci-theme-bootstrap/luci-theme-argon-18.06/g' feeds/luci/collections/luci-nginx/Makefile
 
 #升级smartdns版本到最新commits
-sed -i 's/1.2023.41/'"$(date +"%Y%m%d")"'/g' feeds/packages/net/smartdns/Makefile
-sed -i '/PKG_SOURCE_VERSION:=/d' feeds/packages/net/smartdns/Makefile
-sed -i "/smartdns.git/a\PKG_SOURCE_VERSION:=$(curl -s https://api.github.com/repos/pymumu/smartdns/commits | grep '"sha"' | head -1 | cut -d '"' -f 4)" feeds/packages/net/smartdns/Makefile
-#sed -i 's/60a3719ec739be2cc1e11724ac049b09a75059cb/60a3719ec739be2cc1e11724ac049b09a75059cb/g' feeds/packages/net/smartdns/Makefile
-sed -i 's/^PKG_MIRROR_HASH/#&/' feeds/packages/net/smartdns/Makefile
-git clone -b lede https://github.com/pymumu/luci-app-smartdns.git package/applications/luci-app-smartdns
-git clone --depth 1 https://github.com/pymumu/smartdns package/applications/smartdns
+#sed -i 's/1.2023.41/'"$(date +"%Y%m%d")"'/g' feeds/packages/net/smartdns/Makefile
+#sed -i '/PKG_SOURCE_VERSION:=/d' feeds/packages/net/smartdns/Makefile
+#sed -i "/smartdns.git/a\PKG_SOURCE_VERSION:=$(curl -s https://api.github.com/repos/pymumu/smartdns/commits | grep '"sha"' | head -1 | cut -d '"' -f 4)" feeds/packages/net/smartdns/Makefile
+##sed -i 's/60a3719ec739be2cc1e11724ac049b09a75059cb/60a3719ec739be2cc1e11724ac049b09a75059cb/g' feeds/packages/net/smartdns/Makefile
+#sed -i 's/^PKG_MIRROR_HASH/#&/' feeds/packages/net/smartdns/Makefile
+#git clone -b lede https://github.com/pymumu/luci-app-smartdns.git package/applications/luci-app-smartdns
+#git clone --depth 1 https://github.com/pymumu/smartdns package/applications/smartdns
 #mkdir -p ./package/applications/smartdns_luci
 #mkdir -p ./package/applications/smartdns
 #cp -rf ./feeds/smartdns_luci/* ./package/applications/smartdns_luci
