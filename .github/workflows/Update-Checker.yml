@@ -52,7 +52,7 @@ jobs:
     - name: 整理Hash
       id: combHeader
       run: |
-        echo "commitHash_All=${{steps.getHash.outputs.commitHash_Lede}} ，${{steps.getHash.outputs.commitHash_Lede_Package}} ，${{steps.getHash.outputs.commitHash_Lede_Luci}} ，${{steps.getHash.outputs.commitHash_HelloWorld}}，${{steps.getHash.outputs.commitHash_passwall}}，${{steps.getHash.outputs.commitHash_smartdns}}，${{steps.getHash.outputs.commitHash_OpenClash}}" >> $GITHUB_OUTPUT
+        echo "commitHash_All=${{steps.getHash.outputs.commitHash_Lede}} ，${{steps.getHash.outputs.commitHash_Lede_Package}} ，${{steps.getHash.outputs.commitHash_Lede_Luci}} ，${{steps.getHash.outputs.commitHash_passwall}}，${{steps.getHash.outputs.commitHash_OpenClash}}" >> $GITHUB_OUTPUT
           
     - name: 对比Commit Hash
       id: cacheHash
@@ -68,7 +68,6 @@ jobs:
         #echo ${{ steps.getHash.outputs.commitHash_Lede }} | tee .commitHash_Lede
         #echo ${{ steps.getHash.outputs.commitHash_Lede_Package }} | tee .commitHash_Lede_Package
         #echo ${{ steps.getHash.outputs.commitHash_Lede_Luci }} | tee .commitHash_Lede_Luci
-        #echo ${{ steps.getHash.outputs.commitHash_HelloWorld }} | tee .commitHash_HelloWorld
         echo ${{ steps.combHeader.outputs.commitHash_All }} | tee .commitHash_All
 
     - name: 删除运行记录
