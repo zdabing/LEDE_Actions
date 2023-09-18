@@ -40,19 +40,19 @@ jobs:
         echo "commitHash_Lede_Luci=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
         cd      
         
-        git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall.git -b packages passwall 
+        git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall.git -b packages passwall
         cd passwall
         echo "commitHash_passwall=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
         cd
         
-        git clone --depth 1 https://github.com/vernesong/OpenClash.git -b master OpenClash 
-        cd OpenClash
-        echo "commitHash_OpenClash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-        cd
+#        git clone --depth 1 https://github.com/vernesong/OpenClash.git -b master OpenClash
+#        cd OpenClash
+#        echo "commitHash_OpenClash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+#        cd
     - name: 整理Hash
       id: combHeader
       run: |
-        echo "commitHash_All=${{steps.getHash.outputs.commitHash_Lede}} ，${{steps.getHash.outputs.commitHash_Lede_Package}} ，${{steps.getHash.outputs.commitHash_Lede_Luci}} ，${{steps.getHash.outputs.commitHash_passwall}}，${{steps.getHash.outputs.commitHash_OpenClash}}" >> $GITHUB_OUTPUT
+        echo "commitHash_All=${{steps.getHash.outputs.commitHash_Lede}} ，${{steps.getHash.outputs.commitHash_Lede_Package}} ，${{steps.getHash.outputs.commitHash_Lede_Luci}} ，${{steps.getHash.outputs.commitHash_passwall}}" >> $GITHUB_OUTPUT
           
     - name: 对比Commit Hash
       id: cacheHash
