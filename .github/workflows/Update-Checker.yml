@@ -70,11 +70,11 @@ jobs:
         #echo ${{ steps.getHash.outputs.commitHash_Lede_Luci }} | tee .commitHash_Lede_Luci
         echo ${{ steps.combHeader.outputs.commitHash_All }} | tee .commitHash_All
 
-    - name: 删除运行记录
-      uses: GitRML/delete-workflow-runs@main
-      with:
-        retain_days: 1
-        keep_minimum_runs: 1
+#    - name: 删除运行记录
+#      uses: GitRML/delete-workflow-runs@main
+#      with:
+#        retain_days: 1
+#        keep_minimum_runs: 1
         
     - name: 触发编译
       if: steps.cacheHash.outputs.cache-hit != 'true'
