@@ -99,7 +99,7 @@ jobs:
         sed -i 's/OpenWrt/Build${{ env.DATE1 }} @ OpenWrt/g' package/lean/default-settings/files/zzz-default-settings
         sed -i 's/KERNEL_PATCHVER:=5.15/KERNEL_PATCHVER:=6.1/g' target/linux/x86/Makefile
 
-    - name: 下载软件包
+    - name: Download package
       id: package
       run: |
         cd openwrt
@@ -114,7 +114,6 @@ jobs:
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
-#        echo "::set-output name=status::success"
         echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
@@ -137,7 +136,6 @@ jobs:
         cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-#        echo "::set-output name=status::success"
         echo "status=success" >> $GITHUB_OUTPUT
     - name: 上传固件文件
       uses: actions/upload-artifact@main
@@ -150,7 +148,6 @@ jobs:
       id: tag
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-#        echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")-K6.1"
         echo "release_tag=$(date +"%Y.%m.%d-%H%M")-K6.1" >> $GITHUB_OUTPUT
         touch release.txt
         echo " Lean<a href="https://github.com/coolsnowwolf/lede">lede</a> K6.1 更新记录:" >> release.txt
@@ -161,7 +158,6 @@ jobs:
         git -C openwrt/feeds/luci log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"更新人:%an -- %cd<br/>更新内容: %s<br/>哈希: %H "  >> release.txt        
         echo " <br/><br/><a href="https://github.com/xiaorouji/openwrt-passwall">passwall</a>  更新记录:" >> release.txt
         git -C openwrt/feeds/passwall_packages log -3 --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:"更新人:%an -- %cd<br/>更新内容: %s<br/>哈希: %H " >> release.txt
-#        echo "::set-output name=status::success"
         echo "status=success" >> $GITHUB_OUTPUT
         echo "DATE2=$(date "+%Y年%m月%d日%H时%M分")" >> $GITHUB_ENV
        
